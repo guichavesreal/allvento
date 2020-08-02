@@ -4,164 +4,81 @@
       <h1 class="container">Clientes</h1>
 
       <div>
-        <b-button v-b-modal.modal-1>Adicionar novo cliente</b-button>
+        <b-button v-b-modal.modal-1>Adicionar Novo Cliente</b-button>
 
-        <b-modal id="modal-1" title="Adicionar novo produto">
-          <form>
+        <b-modal id="modal-1" title="Adicionar Novo Cliente">
+          
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputEmail4">Nome</label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Email" />
+                <label for="inputFullName">Nome</label>
+                <input type="text" class="form-control" id="inputFullName" placeholder="Nome completo" required/>
               </div>
               <div class="form-group col-md-6">
-                <label for="inputPassword4">Numero do documento</label>
-                <input type="text" class="form-control" id="inputPassword4" placeholder="Senha" />
+                <label for="inputDocNumber">CPF</label>
+                <input type="text" class="form-control" id="inputDocNumber" placeholder="000.000.000-00" />
               </div>
             </div>
-            <div class="form-group">
-              <label for="inputLogradouro">Endereço</label>
-                  <input id="inputLogradouro" class="form-control" type="text" v-model="endereco.logradouro"/>
-            </div>
-            <div class="form-group">
-                  <label for="inputNumero">Número</label>
-                  <input type="text" id="inputNumero" class="form-control" />
-                </div>
-            <div class="form-group">
-              <label for="inputComplement">Complemento</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="Complemento" />
-            </div>
+
             <div class="form-row">
-              <div class="form-group col-md-4">
-                <label for="inputEstado">Estado</label>
-                  <input type="text" id="inputEstado" class="form-control" v-model="endereco.uf" maxlength="2" />
-              </div>
+              
               <div class="form-group col-md-6">
-                <label for="inputCidade">Cidade</label>
-                  <input type="text" id="inputCidade" class="form-control" v-model="endereco.localidade" />
-              </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label for="inputBairro">Bairro</label>
-                  <input type="text" id="inputBairro" class="form-control" v-model="endereco.bairro" />
-                </div>
-              </div>
-              <div class="form-group col-md-2">
                 <label for="inputCep">CEP</label>
-                  <input id="inputCep" class="form-control" type="text" v-model="cep" v-on:keyup="buscar"/>
+                  <input id="inputCep" class="form-control" type="text" v-model="cep" v-on:keyup="getZipCodeInfo"/>
               </div>
-              <div class="col-md-3">
-                <span class="text-danger">
-                  <strong>*CEP não localizado</strong>
-                </span>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck" />
-                <label class="form-check-label" for="gridCheck">Clique em mim</label>
-              </div>
-              <!-- <div>{{ info }}</div> -->
-            </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-          </form>
-        </b-modal>
-      </div>
 
-      <div class="container">
-        <div class="row.show-grid">
-          <div class="form.col-md-12" v-on:submit="registrar">
-            <h2>Auto Preenchimento de Endereço via CEP</h2>
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="inputCep">CEP</label>
-                  <input
-                    id="inputCep"
-                    class="form-control"
-                    type="text"
-                    v-model="cep"
-                    v-on:keyup="buscar"
-                  />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <span class="text-danger">
+              <div class="col-md-6">
+                <p class="text-danger" v-if="naoLocalizado">
                   <strong>*CEP não localizado</strong>
-                </span>
+                </p>
               </div>
+
             </div>
-            <div class="row">
-              <div class="row-md-5">
-                <div class="form-group">
-                  <label for="inputLogradouro">Logradouro</label>
-                  <input
-                    id="inputLogradouro"
-                    class="form-control"
-                    type="text"
-                    v-model="endereco.logradouro"
-                  />
-                </div>
+
+            <div class="form-row">
+
+              <div class="form-group col-md-10">
+                <label for="inputAddress">Endereço</label>
+                    <input id="inputAddress" class="form-control" type="text" placeholder="Rua Vital Brasil" v-model="endereco.logradouro"/>
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label for="inputNumero">Número</label>
-                  <input type="text" id="inputNumero" class="form-control" />
-                </div>
+
+              <div class="form-group col-md-2">
+                    <label for="inputNumber">Número</label>
+                    <input type="text" id="inputNumber" placeholder="000" class="form-control" />
               </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label for="inputComplemento">Complemento</label>
-                  <input type="text" id="inputComplemento" class="form-control" />
-                </div>
-              </div>
+
             </div>
-            <div class="row">
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label for="inputBairro">Bairro</label>
-                  <input
-                    type="text"
-                    id="inputBairro"
-                    class="form-control"
-                    v-model="endereco.bairro"
-                  />
-                </div>
+
+            <div class="form-row">
+              
+              <div class="form-group col-md-6">
+                <label for="inputComplement">Complemento</label>
+                <input type="text" class="form-control" id="inputComplement" placeholder="Complemento" />
               </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label for="inputCidade">Cidade</label>
-                  <input
-                    type="text"
-                    id="inputCidade"
-                    class="form-control"
-                    v-model="endereco.localidade"
-                  />
-                </div>
+            
+              <div class="form-group col-md-6">
+                  <label for="inputDistrict">Bairro</label>
+                  <input type="text" id="inputDistrict" class="form-control" v-model="endereco.bairro" />
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label for="inputEstado">Estado</label>
-                  <input
-                    type="text"
-                    id="inputEstado"
-                    class="form-control"
-                    v-model="endereco.uf"
-                    maxlength="2"
-                  />
-                </div>
-              </div>
+
             </div>
-            <div class="row">
-              <div class="col-md-10">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <input type="submit" class="form-control" value="enviar" />
-                  </div>
-                </div>
+
+
+            <div class="form-row">
+
+              <div class="form-group col-md-4">
+                <label for="inputState">Estado</label>
+                  <input type="text" id="inputState" class="form-control" v-model="endereco.uf" maxlength="2" />
               </div>
+
+              <div class="form-group col-md-8">
+                <label for="inputCity">Cidade</label>
+                  <input type="text" id="inputCity" class="form-control" v-model="endereco.localidade" />
+              </div>
+
+              
             </div>
-          </div>
-        </div>
+            
+        </b-modal>
       </div>
     </div>
   </div>
@@ -216,7 +133,7 @@ export default {
     registrar: function () {
       // processar dados
     },
-    buscar: function () {
+    getZipCodeInfo: function () {
       var self = this;
 
       self.naoLocalizado = false;
@@ -226,8 +143,12 @@ export default {
         axios.get("https://viacep.com.br/ws/" + this.cep + "/json/")
         .then(
           function(response){
-            self.endereco = response.data;
-            console.log(response);
+            if(!response.data.erro){
+              self.endereco = response.data;
+              console.log(response);
+            } else {
+              self.naoLocalizado = true;
+            }
           }
         );
       }
