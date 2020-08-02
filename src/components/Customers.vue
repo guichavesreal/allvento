@@ -15,7 +15,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="inputDocNumber">CPF</label>
-                <input type="text" class="form-control" id="inputDocNumber" placeholder="000.000.000-00" />
+                <input type="text" class="form-control" id="inputDocNumber" v-mask="'###.###.###-##'" placeholder="000.000.000-00" />
               </div>
             </div>
 
@@ -23,7 +23,7 @@
               
               <div class="form-group col-md-6">
                 <label for="inputCep">CEP</label>
-                  <input id="inputCep" class="form-control" type="text" v-model="cep" v-on:keyup="getZipCodeInfo"/>
+                  <input id="inputCep" class="form-control" type="text" v-mask="'#####-###'" v-model="cep" v-on:keyup="getZipCodeInfo"/>
               </div>
 
               <div class="col-md-6">
@@ -115,6 +115,7 @@ label {
 
 <script>
 import axios from "axios";
+import {mask} from 'vue-the-mask';
 
 export default {
   name: "addressForm",
@@ -124,6 +125,9 @@ export default {
       endereco: {},
       naoLocalizado: false,
     };
+  },
+  directives:{
+    mask
   },
   mounted: function () {
     // this.$emit("inputCep").mask("00000-000");\
